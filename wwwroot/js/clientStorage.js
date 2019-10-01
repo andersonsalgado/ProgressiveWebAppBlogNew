@@ -50,8 +50,27 @@ function getPosts() {
 function getOldestBlogPostId() {
     return oldestBlogPostId;
 }
+
+function getPostText(link) {
+    return new Promise(function (resolve, reject) {
+        blogInstance.getItem('#' + link)
+            .then(function (text) {
+                resolve(text);
+            });
+    });
+}
+function addPostText(link, text) {
+    return new Promise(function (resolve, reject) {
+        blogInstance.setItem('#' + link,
+            text).then(function () {
+                resolve();
+            });
+    });
+}
 return {
     addPosts: addPosts,
     getPosts: getPosts,
-    getOldestBlogPostId: getOldestBlogPostId
+    getOldestBlogPostId: getOldestBlogPostId,
+    addPostText: addPostText,
+    getPostText: getPostText
 }
