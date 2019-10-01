@@ -58,3 +58,13 @@ function loadBlogPost(link) {
                 })
         });
 }
+
+clientStorage.getPostText(link)
+    .then(function (data) {
+        if (!data) {
+            var contentNotFound = $('#blog-content-not-found')
+                .html().replace(/{{Link}}/g, link);
+            template.showBlogItem(contentNotFound, link);
+        } else {
+        }
+    })

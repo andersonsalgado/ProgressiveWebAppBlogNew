@@ -1,4 +1,5 @@
-﻿define([], function () {
+﻿
+define([], function () {
     var blogInstance = localforage.createInstance({
         name: 'blog'
     });
@@ -7,8 +8,7 @@
             var keyValuePair = [];
             posts.map(function (item) {
                 keyValuePair.push({
-                    key: item.postId,
-                    value: item
+                    key: item.postId, value: item
                 });
             })
             blogInstance.setItems(keyValuePair)
@@ -20,8 +20,7 @@
     return {
         addPosts: addPosts
     }
-});
-
+});
 var oldestBlogPostId = null;
 var limit = 3;
 function getPosts() {
