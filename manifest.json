@@ -1,0 +1,10 @@
+﻿{
+    "name": "ProgressiveWebAppBlog",
+    "short_name": "PWA WEB",
+    "theme_color": "#2196f3",
+    "background_color": "#2196f3",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "/",
+    "splash_pages": null
+}
