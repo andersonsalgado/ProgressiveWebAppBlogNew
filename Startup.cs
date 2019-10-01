@@ -56,7 +56,6 @@ namespace ProgressiveWebAppBlog
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
