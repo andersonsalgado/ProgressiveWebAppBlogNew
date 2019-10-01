@@ -2,7 +2,8 @@
 if (!'BackgroundFetchManager' in self) {
     alert('background fetch não está disponível neste site');
     return;
-}
+}
+
 //window events
 let defferedPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
