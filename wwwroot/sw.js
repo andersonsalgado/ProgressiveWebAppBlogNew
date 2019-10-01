@@ -21,7 +21,6 @@ self.addEventListener('fetch', function (event) {
 var cacheName = 'v1Cache';
 var blogCacheFiles = [
     '/',
-    //arquivos basicos da pwa
     '/sw.js',
     '/lib/bootstrap/dist/css/bootstrap.css',
     '/css/site.css',
@@ -42,13 +41,13 @@ var blogCacheFiles = [
     '/js/template.js',
     '/lib/showdown/showdown.js',
     '/js/clientStorage.js',
-    '/images/icons/icon-72x72.png',
-    '/images/icons/icon-96x96.png',
-    '/images/icons/icon-128x128.png',
-    '/images/icons/icon-152x152.png',
-    '/images/icons/icon-192x192.png',
-    '/images/icons/icon-384x384.png',
-    '/images/icons/icon-512x512.png'
+    '/img/icons/icon-72x72.png',
+    '/img/icons/icon-96x96.png',
+    '/img/icons/icon-128x128.png',
+    '/img/icons/icon-152x152.png',
+    '/img/icons/icon-192x192.png',
+    '/img/icons/icon-384x384.png',
+    '/img/icons/icon-512x512.png'
 ];
 
 event.waitUntil(
@@ -96,7 +95,7 @@ setBackgroundFetch: function (link) {
                 title: link,
                 icons: [{
                     sizes: '192x192',
-                    src: 'images/icons/icon-192x192.png',
+                    src: 'img/icons/icon-192x192.png',
                     type: 'image/png',
                 }],
                 downloadTotal: 15000,

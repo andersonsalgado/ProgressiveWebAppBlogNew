@@ -47,8 +47,9 @@ function loadBlogPost(link) {
             clientStorage.getPostText(link)
                 .then(function (data) {
                     if (!data) {
-                        template.showBlogItem($('#blog-content-notfound').
-                            html(), link);
+                        var contentNotFound = $('#blog-content-not-found')
+                            .html().replace(/{{Link}}/g, link);
+                        template.showBlogItem(contentNotFound, link);
                     } else {
                         var converter = new showdown.Converter();
                         html = converter.makeHtml(data);
@@ -57,14 +58,4 @@ function loadBlogPost(link) {
                     window.location = '#' + link;
                 })
         });
-}
-
-clientStorage.getPostText(link)
-    .then(function (data) {
-        if (!data) {
-            var contentNotFound = $('#blog-content-not-found')
-                .html().replace(/{{Link}}/g, link);
-            template.showBlogItem(contentNotFound, link);
-        } else {
-        }
-    })
+}
