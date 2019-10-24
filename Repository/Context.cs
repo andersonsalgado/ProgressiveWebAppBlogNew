@@ -17,5 +17,7 @@ namespace ProgressiveWebAppBlog.Repository
         protected Context()
         {
         }
+
+        public DbSet<BlogPost> BlogPost { get; set; }
     }
 }
