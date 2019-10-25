@@ -4,95 +4,86 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section css {
     <link href="~/css/Blog/blog.min.css" rel="stylesheet" />
+}
+
 
 <!-- END PAGE HEADER-->
 <div class="blog-page blog-content-1">
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="blog-post-lg bordered blog-container">
-                <div class="blog-img-thumb">
-                    <a href="javascript:;">
-                        <img src="~/img/Blog/05.jpg" />
-                    </a>
-                </div>
-                <div class="alert alert-info show" id="connectionstatus"></div>
-                <div class="blog-post-content">
-                    <h2 class="blog-title blog-post-title">
-                        <a href="javascript:;">Metronic Blog Post</a>
-                    </h2>
-                    <p class="blog-post-desc">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit
-                    </p>
-                    <div class="blog-post-foot">
-                        <ul class="blog-post-tags">
-                            <li class="uppercase">
-                                <a href="javascript:;">Bootstrap</a>
-                            </li>
-                            <li class="uppercase">
-                                <a href="javascript:;">Sass</a>
-                            </li>
-                            <li class="uppercase">
-                                <a href="javascript:;">HTML</a>
-                            </li>
-                        </ul>
-                        <div class="blog-post-meta">
-                            <i class="icon-calendar font-blue"></i>
-                            <a href="javascript:;">Oct 24, 2015</a>
-                        </div>
-                        <div class="blog-post-meta">
-                            <i class="icon-bubble font-blue"></i>
-                            <a href="javascript:;">14 Comments</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="row">
+    <div class="row blog-list">
+
+        <script id="blog-card" type="text/template">
+            <div class="col-lg-6" id="divPost">
 
                 <div class="blog-post-lg bordered blog-container">
                     <div class="blog-img-thumb">
                         <a href="javascript:;">
-                            <img src="~/img/Blog/05.jpg" />
+                            <img src="{{blog-imagem}}" />
                         </a>
                     </div>
+                    <div class="alert alert-info show" id="connectionstatus"></div>
                     <div class="blog-post-content">
                         <h2 class="blog-title blog-post-title">
-                            <a href="javascript:;">New Metronic Features</a>
+                            <a href="javascript:;">{{PostId}} - {{Title}}</a>
                         </h2>
                         <p class="blog-post-desc">
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                            suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit
+                            {{ShortDescription}}
                         </p>
-                        <div class="blog-post-foot">
-                            <ul class="blog-post-tags">
-                                <li class="uppercase">
-                                    <a href="javascript:;">Bootstrap</a>
-                                </li>
-                                <li class="uppercase">
-                                    <a href="javascript:;">Sass</a>
-                                </li>
-                                <li class="uppercase">
-                                    <a href="javascript:;">HTML</a>
-                                </li>
-                            </ul>
-                            <div class="blog-post-meta">
-                                <i class="icon-calendar font-blue"></i>
-                                <a href="javascript:;">Oct 22, 2015</a>
-                            </div>
-                            <div class="blog-post-meta">
-                                <i class="icon-bubble font-blue"></i>
-                                <a href="javascript:;">8 Comments</a>
-                            </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button onclick="pageEvents.loadBlogPost('{{Link}}');" class="btn btn-primary col-6 col-xs-offset-1">Visualizar</button>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
+        </script>
+    </div>
+
+    <div class="center">
+        <button class="btn btn-danger" onclick="pageEvents.loadMoreBlogPosts();">
+            ver mais
+        </button>
+        <br /><br />
     </div>
 </div>
 <!-- END CONTENT BODY -->
 
+<div id="blog-item-container"></div>
+<script id="blog-item" type="text/template">
+    <div class="modal fade" id="blog-item-modal" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModal-label">{{Title}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="blog-img-thumb">
+                        <img src="{{Image}}" alt="{{Title}}" class="col-lg-12" />
+                    </div>
+                    
+                    <hr/>
+
+                    <div id="{{Link}}">
+                        <div class="form-group">
+                            <label class="control-label" for="form-group-input">Post</label>
+                        </div>
+                        <hr />
+                        
+                        {{Content}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+    

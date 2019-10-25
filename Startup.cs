@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProgressiveWebAppBlog.Repository;
+using ProgressiveWebAppBlog.Services;
 
 namespace ProgressiveWebAppBlog
 {
@@ -39,7 +40,11 @@ namespace ProgressiveWebAppBlog
             });
 
 
+            services.AddTransient<IBlogService, BlogService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

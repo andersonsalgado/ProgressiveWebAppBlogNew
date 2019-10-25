@@ -153,7 +153,7 @@ namespace ProgressiveWebAppBlog.Controllers
         [Route("api/posts/list")]
         public async Task<List<BlogPost>> LatestBlogPosts()
         {
-            return await _context.BlogPost.ToListAsync();
+            return await _context.BlogPost.Take(2).OrderByDescending(_ => _.PostId).ToListAsync();
         }
         
     }
