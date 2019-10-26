@@ -45,7 +45,7 @@
         </nav>
     </header>
     <div class="container">
-        <partial name="_CookieConsentPartial" />
+        @*<partial name="_CookieConsentPartial" />*@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -78,11 +78,16 @@
     </environment>
 
     <script src="~/lib/localforage/localforage.min.js"></script>
+    <script src="~/lib/localforage/localforage-getitems.js"></script>
+    <script src="~/lib/localforage/localforage-setitems.js"></script>
     <script src="~/lib/es6-promise/es6-promise.js"></script>
     <script src="~/lib/fetch/fetch.js"></script>
     <script src="~/lib/systemjs/system.js"></script>
     <script src="~/js/site.js" asp-appendversion="true"></script>
     <script src="~/js/blog.js"></script>
+
+
+
 
     @RenderSection("Scripts", required: false)
 
