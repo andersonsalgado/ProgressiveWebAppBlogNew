@@ -43,7 +43,15 @@
             </div>
         </nav>
     </header>
-    <div style="display:none; padding: 5px; textalign: center;" id="install-container">
+    <div id="notification-subscribe-section" style="display:none;
+padding: 5px; text-align:center;">
+        <button class="btn-link no-style"
+                onclick="pageEvents.requestPushPermission();">
+            Clique aqui
+        </button>
+        para receber notificações quando novos artigos forem publicados
+    </div>
+    <div style="display:none; padding: 5px; text-align: center;" id="install-container">
         <button onclick="pageEvents.tryAddHomeScreen();"
                 class="btn-link no-style">
             Clique aqui

@@ -1,4 +1,5 @@
-﻿importScripts('lib/localforage/localforage.min.js');
+﻿
+importScripts('lib/localforage/localforage.min.js');
 "use strict";
 //Installing
 //Pre-cache App Shell
@@ -17,7 +18,12 @@ self.addEventListener('fetch', function (event) {
     console.log('SW: Evento de fetch ' +
         event.request.url);
 });
-
+self.addEventListener('push', function (event) {
+    event.waitUntil(self.registration.showNotification('Maki Blog!', {
+ body: event.data.text(),
+        icon: '/images/notification.png'
+ }));
+});
 var cacheName = 'v1Cache';
 var blogCacheFiles = [
     '/',
@@ -115,7 +121,8 @@ setBackgroundFetch: function (link) {
             }
         });
     });
-}
+}
+
 self.addEventListener('backgroundfetchsuccess', (event) => {
     const bgFetch = event.registration;
     event.waitUntil(async function () {
@@ -133,4 +140,4 @@ self.addEventListener('backgroundfetchsuccess', (event) => {
         await Promise.all(promises);
         event.updateUI({ title: 'Done!' });
     }());
-});
+});

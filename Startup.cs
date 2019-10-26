@@ -10,12 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProgressiveWebAppBlog.Context;
 using ProgressiveWebAppBlog.Repository;
 
 namespace ProgressiveWebAppBlog
 {
     public class Startup
     {
+        private const string SQLITE_CONNECTION_STRING_NAME = "PushSubscriptionSqliteDatabase";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,10 +30,11 @@ namespace ProgressiveWebAppBlog
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<Context>(options => {
+            services.AddDbContext<BlogContext>(options =>
+            {
                 options.UseSqlite(Configuration.GetConnectionString("BlogConnection"));
             });
-            
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -66,6 +70,36 @@ namespace ProgressiveWebAppBlog
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                PushSubscriptionContext context =
+               serviceScope.ServiceProvider.GetService<PushSubscriptionContext>();
+                context.Database.EnsureCreated();
+            }
+        }
+        public IServiceCollection AddPushSubscriptionStore(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<PushSubscriptionContext>(options =>
+
+           options.UseSqlite(configuration.GetConnectionString(SQLITE_CONNECTION_STRING_NAME))
+            );
+            services.AddTransient<IPushSubscriptionStore,
+           SqlitePushSubscriptionStore>();
+            return services;
+        }
+        public IServiceCollection AddPushNotificationService(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOptions();
+            services.AddMemoryCache();
+            services.AddMemoryVapidTokenCache();
+            services.AddPushServiceClient(options =>
+            {
+                IConfigurationSection pushNotificationServiceConfigurationSection = configuration.GetSection(nameof(PushServiceClient));
+                options.Subject = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.Subject));
+                options.PublicKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PublicKey));
+                options.PrivateKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PrivateKey));
+            });
+            return services;
         }
     }
 }

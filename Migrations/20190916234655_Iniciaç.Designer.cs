@@ -7,7 +7,7 @@ using ProgressiveWebAppBlog.Repository;
 
 namespace ProgressiveWebAppBlog.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(BlogContext))]
     [Migration("20190916234655_Iniciaç")]
     partial class Iniciaç
     {

@@ -11,9 +11,9 @@ namespace ProgressiveWebAppBlog.Controllers
 {
     public class PostsController : Controller
     {
-        private readonly Context _context;
+        private readonly BlogContext _context;
 
-        public PostsController(Context context)
+        public PostsController(BlogContext context)
         {
             _context = context;
         }

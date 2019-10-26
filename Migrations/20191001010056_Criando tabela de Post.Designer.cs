@@ -8,7 +8,7 @@ using ProgressiveWebAppBlog.Repository;
 
 namespace ProgressiveWebAppBlog.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(BlogContext))]
     [Migration("20191001010056_Criando tabela de Post")]
     partial class CriandotabeladePost
     {
