@@ -1,10 +1,10 @@
 ﻿define([], function () {
 
+    var oldestBlogPostId = "";
+
     var blogInstance = localforage.createInstance({ name: 'blog' });
 
-    function getOldestBlogPostId() {
-        return oldestBlogPostId;
-    }
+    
 
     function addPosts(posts) {
         return new Promise(function (resolve, reject) {
@@ -20,7 +20,7 @@
         });
     }
 
-
+    
     var limit = 2;
     function getPosts() {
         return new Promise(function (resolve, reject) {
@@ -42,10 +42,35 @@
         });
     }
 
+    function addPostText(link, json) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.setItem('#' + link,json).then(function () {
+                resolve();
+            });
+        });
+    }
+
+    function getPostText(json) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.getItem('#' + link)
+                .then(function (json) {
+                    resolve(json);
+                });
+        });
+    }
+
+
+
+    function getOldestBlogPostId() {
+        return oldestBlogPostId;
+    }
+
     return {
         addPosts: addPosts,
         getPosts: getPosts,
-        getOldestBlogPostId: getOldestBlogPostId
+        getOldestBlogPostId: getOldestBlogPostId,
+        getPostText: getPostText,
+        addPostText: addPostText
     };
 
 });

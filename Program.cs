@@ -19,7 +19,7 @@ namespace ProgressiveWebAppBlog
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                //.UseUrls("http://127.0.0.1:8090")
+                //.UseUrls("http://0.0.0.0:5000")
                 .UseStartup<Startup>();
     }
 }
