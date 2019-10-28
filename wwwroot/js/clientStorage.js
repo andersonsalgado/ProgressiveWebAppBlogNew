@@ -43,6 +43,7 @@
     }
 
     function addPostText(link, json) {
+        debugger;
         return new Promise(function (resolve, reject) {
             blogInstance.setItem('#' + link,json).then(function () {
                 resolve();
@@ -52,7 +53,7 @@
 
     function getPostText(json) {
         return new Promise(function (resolve, reject) {
-            blogInstance.getItem('#' + link)
+            blogInstance.getItem('#' + json)
                 .then(function (json) {
                     resolve(json);
                 });

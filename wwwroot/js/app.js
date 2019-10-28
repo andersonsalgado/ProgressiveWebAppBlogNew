@@ -6,6 +6,7 @@ blogService.loadLatestBlogPosts();
 window.pageEvents = {
 
     loadBlogPost: function (link) {
+        console.log('imprimindo o link do clique' + link);
         blogService.loadBlogPost(link);
     },
 
