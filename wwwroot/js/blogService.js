@@ -6,15 +6,11 @@
 
 
     function loadLatestBlogPosts() {
+        debugger;
         loadData(blogPostUrl);
     }
 
     var blogPostUrlId = '/Home/Post/?postId=';
-
-
-
-
-
 
     function loadBlogPost(link) {
         debugger;
@@ -76,18 +72,29 @@
 
     function fetchPromise(url, link, json) {
         //link = id do post.
-        link = link || '';
         debugger;
+
+        link = link || '';
+
+        var montaLink = ""
+
+        if (url.substring(url.length -1) === '=') {
+            montaLink = url + link; 
+        } else {
+            montaLink = url + '/' + link; 
+        }
+
+           debugger;
         return new Promise(function (resolve, reject) {
             
-            fetch(url + '/' + link)
+            fetch(montaLink)
                 .then(function (data) {
                     var resolveSuccess = function () {
                         resolve('The connection is OK, showing latest results');
                     };
 
                     if (json) {
-                        json.json().then(function (json) {
+                        data.json().then(function (json) {
                             clientStorage.addPostText(link, json).then(resolveSuccess);
                         });
                     }

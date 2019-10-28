@@ -7,6 +7,7 @@
     
 
     function addPosts(posts) {
+        debugger;
         return new Promise(function (resolve, reject) {
 
             var keyValuePair = [];
@@ -25,6 +26,15 @@
     function getPosts() {
         return new Promise(function (resolve, reject) {
             blogInstance.keys().then(function (_keys) {
+                debugger;
+                _keys = _keys.filter(function (a) {
+                    return a && !a.toString().includes('#')
+                });
+
+                _keys = _keys.sort(function (a, b) {
+                    return a - b
+                });
+
                 var index = _keys.indexOf(oldestBlogPostId);
                 if (index === -1) { index = _keys.length; }
                 if (index === 0) { resolve([]); return; }
