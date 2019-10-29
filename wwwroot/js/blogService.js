@@ -26,15 +26,14 @@
 
                 clientStorage.getPostText(link)
                     .then(function (data) {
-                        if (!data) {
-
+                        if (data == null) {
+                            debugger;
+                            //template.showBlogItem(data, link);
                             var contentNotFound = $('#blog-content-not-found')
                                 .html().replace(/{{Link}}/g, link);
                             template.showBlogItem(contentNotFound, link);
                         } else {
-                            var converter = new showdown.Converter();
-                            html = converter.makeHtml(data);
-                            template.showBlogItem(html, link);
+                            template.showBlogItem(data, link);
                         }
                         window.location = '#' + link;
                     });
@@ -78,10 +77,12 @@
 
         var montaLink = ""
 
-        if (url.substring(url.length -1) === '=') {
-            montaLink = url + link; 
+        if (url.substring(url.length - 1) === '=') {
+            montaLink = url + link;
+        } else if (link.length > 0) {
+            montaLink = url + '/' + link;
         } else {
-            montaLink = url + '/' + link; 
+            montaLink = url;
         }
 
            debugger;
