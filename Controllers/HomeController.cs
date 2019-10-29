@@ -13,18 +13,15 @@ namespace ProgressiveWebAppBlog.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IBlogService _blogService;
         private readonly PushSubscriptionContext _context;
         private readonly PushServiceClient _pushClient;
 
-        public HomeController(PushSubscriptionContext context)
-        {
-            _context = context;
-        }
-        public IActionResult Index()
+        public HomeController(PushSubscriptionContext context, IBlogService blogService)
         {
             _blogService = blogService;
+            _context = context;
         }
-
         public IActionResult Index()
         {
             return View();

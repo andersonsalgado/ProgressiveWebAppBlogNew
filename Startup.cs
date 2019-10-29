@@ -28,8 +28,8 @@ namespace ProgressiveWebAppBlog
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddPushSubscriptionStore(Configuration)
-                .AddPushNotificationService(Configuration);
+            //services.AddPushSubscriptionStore(Configuration)
+            //    .AddPushNotificationService(Configuration);
 
             services.AddSingleton<IBlogService, BlogService>();
             services.AddTransient<IBlogService, BlogService>();

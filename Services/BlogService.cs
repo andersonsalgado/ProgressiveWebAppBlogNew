@@ -12,9 +12,9 @@ namespace ProgressiveWebAppBlog.Services
     public class BlogService : IBlogService
     {
         private IHostingEnvironment _env;
-        private readonly Context _context;
+        private readonly BlogContext _context;
 
-        public BlogService(IHostingEnvironment env , Context context)
+        public BlogService(IHostingEnvironment env , BlogContext context)
         {
             _env = env;
             _context = context;
