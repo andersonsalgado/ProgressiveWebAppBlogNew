@@ -31,14 +31,13 @@
                 clientStorage.getPostText(link)
                     .then(function (data) {
                         if (!data) {
-
+                            debugger;
+                            //template.showBlogItem(data, link);
                             var contentNotFound = $('#blog-content-not-found')
                                 .html().replace(/{{Link}}/g, link);
                             template.showBlogItem(contentNotFound, link);
                         } else {
-                            var converter = new showdown.Converter();
-                            html = converter.makeHtml(data);
-                            template.showBlogItem(html, link);
+                            template.showBlogItem(data, link);
                         }
                         window.location = '#' + link;
                     });
@@ -76,18 +75,31 @@
 
     function fetchPromise(url, link, json) {
         //link = id do post.
-        link = link || '';
         debugger;
+
+        link = link || '';
+
+        var montaLink = ""
+
+        if (url.substring(url.length - 1) === '=') {
+            montaLink = url + link;
+        } else if (link.length > 0) {
+            montaLink = url + '/' + link;
+        } else {
+            montaLink = url;
+        }
+
+           debugger;
         return new Promise(function (resolve, reject) {
             
-            fetch(url + '/' + link)
+            fetch(montaLink)
                 .then(function (data) {
                     var resolveSuccess = function () {
                         resolve('The connection is OK, showing latest results');
                     };
 
                     if (json) {
-                        json.json().then(function (json) {
+                        data.json().then(function (json) {
                             clientStorage.addPostText(link, json).then(resolveSuccess);
                         });
                     }
@@ -117,9 +129,38 @@
         });
     }
 
+    function loadBlogPost(link) {
+
+        fetchPromise(blogPostUrl, link, true)
+            .then(function (status) {
+                $('#connection-status').html(status);
+
+                clientStorage.getPostText(link)
+                    .then(function (data) {
+                        if (!data) {
+
+                            var contentNotFound = $('#blog-content-not-found')
+                                .html().replace(/{{Link}}/g, link)
+                                ;
+
+                            template.showBlogItem(contentNotFound, link);
+                        } else {
+                            var converter = new showdown.Converter();
+                            html = converter.makeHtml(data);
+                            template.showBlogItem(html, link);
+                        }
+                        window.location = '#' + link;
+                    })
+            });
+    }
+
+    function loadMoreBlogPosts() {
+        loadData(blogMorePostsUrl + clientStorage.getOldestBlogPostId());
+    }
+
     return {
         loadLatestBlogPosts: loadLatestBlogPosts,
         loadBlogPost: loadBlogPost,
         loadMoreBlogPosts: loadMoreBlogPosts
-    };
+    }
 });
