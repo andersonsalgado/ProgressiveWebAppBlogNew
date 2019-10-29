@@ -1,15 +1,7 @@
 ﻿var blogService = require('./blogService.js');
 var serviceWorker = require('./swRegister.js');
 
-//window events
-let defferedPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    defferedPrompt = e;
-    //atualizar a tela para notificar o usuario
-    // que ele pode adicionar à tela de home
-    $('#install-container').show();
-});
+blogService.loadLatestBlogPosts();
 
 window.addEventListener('appinstalled', (evt) => {
     console.log('app foi adicionada na home screen! Yuhuu!');

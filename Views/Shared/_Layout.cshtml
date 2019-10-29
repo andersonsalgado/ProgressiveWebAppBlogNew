@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="study and post, a learning philosophy">
     <title>@ViewData["Title"] - ProgressiveWebAppBlog</title>
 
     <environment include="Development">
@@ -17,7 +16,12 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("css", false)
+
     <link rel="manifest" href="/manifest.json">
+    <meta name="description" content="study and post, a learning philosophy">
+
 </head>
 <body>
     <header>
@@ -59,7 +63,7 @@ padding: 5px; text-align:center;">
         e adicione nosso blog na sua home!
     </div>
     <div class="container">
-        <partial name="_CookieConsentPartial" />
+        @*<partial name="_CookieConsentPartial" />*@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -97,11 +101,18 @@ padding: 5px; text-align:center;">
     <script src="~/lib/es6-promise/es6-promise.js"></script>
     <script src="~/lib/fetch/fetch.js"></script>
     <script src="~/lib/systemjs/system.js"></script>
-    <script src="~/js/blogService.js"></script>
+    <script src="~/js/site.js" asp-appendversion="true"></script>
+    <script src="~/js/blog.js"></script>
+
+
+
 
     @RenderSection("Scripts", required: false)
+
+    
+
 </body>
 </html>
 
 
-<script src=""></script>
+

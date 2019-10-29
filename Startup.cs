@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProgressiveWebAppBlog.Repository;
+using ProgressiveWebAppBlog.Services;
 using ProgressiveWebAppBlog.Context;
 
 namespace ProgressiveWebAppBlog
@@ -30,7 +32,11 @@ namespace ProgressiveWebAppBlog
                 .AddPushNotificationService(Configuration);
 
             services.AddSingleton<IBlogService, BlogService>();
+            services.AddTransient<IBlogService, BlogService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

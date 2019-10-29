@@ -7,6 +7,7 @@ using Lib.Net.Http.WebPush;
 using Microsoft.AspNetCore.Mvc;
 using ProgressiveWebAppBlog.Context;
 using ProgressiveWebAppBlog.Models;
+using ProgressiveWebAppBlog.Services;
 
 namespace ProgressiveWebAppBlog.Controllers
 {
@@ -21,10 +22,10 @@ namespace ProgressiveWebAppBlog.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            _blogService = blogService;
         }
 
-        public IActionResult Privacy()
+        public IActionResult Index()
         {
             return View();
         }
