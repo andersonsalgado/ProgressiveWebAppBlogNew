@@ -5,58 +5,52 @@
 
 <link href="~/css/Blog/blog.min.css" rel="stylesheet" />
 
-<!-- END PAGE HEADER-->
-<div class="alert alert-info show" id="connectionstatus"></div>
-<div class="blog-page blog-content-1">
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="blog-post-lg bordered blog-container">
-                <div class="blog-img-thumb">
-                    <a href="javascript:;">
-                        <img src="~/img/Blog/05.jpg" />
-                    </a>
-                </div>
-
-                <div class="blog-post-content">
-                    <h2 class="blog-title blog-post-title">
-                        <a href="javascript:;">Metronic Blog Post</a>
-                    </h2>
-                    <p class="blog-post-desc">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit
-                    </p>
-                    <div class="blog-post-foot">
-                        <ul class="blog-post-tags">
-                            <li class="uppercase">
-                                <a href="javascript:;">Bootstrap</a>
-                            </li>
-                            <li class="uppercase">
-                                <a href="javascript:;">Sass</a>
-                            </li>
-                            <li class="uppercase">
-                                <a href="javascript:;">HTML</a>
-                            </li>
-                        </ul>
-                        <div class="blog-post-meta">
-                            <i class="icon-calendar font-blue"></i>
-                            <a href="javascript:;">Oct 24, 2015</a>
-                        </div>
-                        <div class="blog-post-meta">
-                            <i class="icon-bubble font-blue"></i>
-                            <a href="javascript:;">14 Comments</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="row">
-
-
-<div class="blog-page blog-content-1 blog-list" id="blog-list">
-    
+<div class="text-center" id="blog-title">
+    <h1 class="display-4">ProgressiveWebAppBlog</h1>
+    <p>study and share, a learning philosophy</p>
 </div>
-<!-- END CONTENT BODY -->
+
+<div class="alert alert-info show" id="connection-status"></div>
+
+<div class="blog-list card-columns" id="blog-list">
+</div>
+
+<div id="blog-item-container"></div>
+
+<div class="create-profile">
+
+    <h2>Como acessar algumas funções Nativas do Celular?</h2>
+    <br />        <br />
+    <div>
+        Camera: <input type="file" accept="image/*" capture="camera" />
+        <br />        <br />
+    </div>
+    <div>
+        Gravação: <input type="file" accept="video/*" capture="camcorder">
+        <br />        <br />
+    </div>
+    <div>
+        Microfone: <input type="file" accept="audio/*" capture="microphone">
+        <br />        <br />
+    </div>
+    <div>
+        <button onclick="getGeolocation();" type="button" class="btn btn-primary" id="address-button">Clique aqui para obter seu Endereço</button>
+        <br /><br />
+    </div>
+    <div>
+        <div id="address-found-input" style="display:none;">Cidade/Estado: <input id="address-found" type="text" /></div>
+        <br />        <br />
+    </div>
+    <div>
+        <button type="button" id="vibrar-celular" onclick="vibrate();" class="btn btn-primary">Vibrar celular</button>
+        <br />        <br />
+    </div>
+    <div>
+        <canvas id="canvas" width="300" height="300" style="border: 1px solid black;"></canvas>
+        <div id="rotation-info"></div>
+        <br /><br />
+    </div>
+</div>
 
 
 <div class="row itemRowPost" id="itemRowPost"></div>

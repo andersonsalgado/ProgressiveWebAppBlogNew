@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProgressiveWebAppBlog.Context;
-using ProgressiveWebAppBlog.Repository;
 
 namespace ProgressiveWebAppBlog
 {
     public class Startup
     {
-        private const string SQLITE_CONNECTION_STRING_NAME = "PushSubscriptionSqliteDatabase";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,27 +18,21 @@ namespace ProgressiveWebAppBlog
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddDbContext<BlogContext>(options =>
-            {
-                options.UseSqlite(Configuration.GetConnectionString("BlogConnection"));
-            });
-
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddPushSubscriptionStore(Configuration)
+                .AddPushNotificationService(Configuration);
 
+            services.AddSingleton<IBlogService, BlogService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -56,13 +42,18 @@ namespace ProgressiveWebAppBlog
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                PushSubscriptionContext context = serviceScope.ServiceProvider.GetService<PushSubscriptionContext>();
+                context.Database.EnsureCreated();
+            }
 
             app.UseMvc(routes =>
             {
@@ -70,36 +61,6 @@ namespace ProgressiveWebAppBlog
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                PushSubscriptionContext context =
-               serviceScope.ServiceProvider.GetService<PushSubscriptionContext>();
-                context.Database.EnsureCreated();
-            }
-        }
-        public IServiceCollection AddPushSubscriptionStore(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<PushSubscriptionContext>(options =>
-
-           options.UseSqlite(configuration.GetConnectionString(SQLITE_CONNECTION_STRING_NAME))
-            );
-            services.AddTransient<IPushSubscriptionStore,
-           SqlitePushSubscriptionStore>();
-            return services;
-        }
-        public IServiceCollection AddPushNotificationService(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOptions();
-            services.AddMemoryCache();
-            services.AddMemoryVapidTokenCache();
-            services.AddPushServiceClient(options =>
-            {
-                IConfigurationSection pushNotificationServiceConfigurationSection = configuration.GetSection(nameof(PushServiceClient));
-                options.Subject = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.Subject));
-                options.PublicKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PublicKey));
-                options.PrivateKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PrivateKey));
-            });
-            return services;
         }
     }
 }

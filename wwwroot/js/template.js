@@ -1,31 +1,32 @@
-﻿function appendBlogList(data) {
-    debugger;
+﻿define([], function () {
 
-    var itemColPostClone = $("#itemColPost").clone();
-    $("#itemColPost").remove();
-
-
-    var itemRowPost = $("#itemRowPost").clone();
-    $("#itemRowPost").remove();
-
-    
-
-
-    var $bloglist = $("#blog-list");
-    var $itemRowPost = $("#itemRowPost");
-    
-
-    for (var i = 0; i < data.length; i++) {
-        if (i % 0 ) {
-            var newRow = itemRowPost.clone();
-
-
-
-            $bloglist.append(newRow);
-        }
+    function generateBlogItem(item) {
+        var template = $('#blog-card').html();
+        template = template.replace('{{PostId}}', item.postId);
+        template = template.replace('{{Title}}', item.title);
+        template = template.replace('{{ShortDescription}}', item.shortDescription);
+        template = template.replace('{{Link}}', item.link);
+        return template;
     }
 
-    
+    function appendBlogList(items) {
+        var cardHtml = '';
+        for (var i = 0; i < items.length; i++) {
+            cardHtml += generateBlogItem(items[i]);
+        }
 
+        $('.blog-list').append(cardHtml);
+    }
 
-}
+    function showBlogItem(html, link) {
+        var template = $('#blog-item').html();
+        template = template.replace('{{Link}}', link);
+        template = template.replace('{{Content}}', html);
+        $('#blog-item-container').html(template);
+    }
+
+    return {
+        appendBlogList: appendBlogList,
+        showBlogItem: showBlogItem
+    }
+});
