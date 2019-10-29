@@ -39,3 +39,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
 window.addEventListener('appinstalled', (evt) => {
     console.log('app foi adicionada na home screen! Yuhuu!');
 });
+
+
+//if (!'BackgroundFetchManager' in self) {
+//    alert('background fetch não está disponível neste site');
+//    return;
+//}

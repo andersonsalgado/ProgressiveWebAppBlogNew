@@ -26,9 +26,7 @@
 
                 clientStorage.getPostText(link)
                     .then(function (data) {
-                        if (data !== null) {
-                            template.showBlogItem(data, link);
-                        }
+                        template.showBlogItem(data, link);
                         window.location = '#' + link;
                     });
             });

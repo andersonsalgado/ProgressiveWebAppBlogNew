@@ -32,13 +32,20 @@
     }
 
     function showBlogItem(data, link) {
-        var template = $('#blog-item').html();
-        template = template.replace('{{Title}}', data.title || '');
-        template = template.replace('{{Image}}', getImagem(data.image) || '');
-        template = template.replace('{{Link}}', link);
-        template = template.replace('{{Content}}', data.prevDescription || '');
-        $('#blog-item-container').html(template);
-        $('#blog-item-modal').modal('show');
+
+        if (data === null) {
+            var templateNot = $('#blog-item-not-found').html().replace(/{{Link}}/g, link);
+            $('#blog-item-container').html(templateNot);
+            $('#blog-item-modal').modal('show');
+        } else {
+            var template = $('#blog-item-found').html();
+            template = template.replace('{{Title}}', data.title || '');
+            template = template.replace('{{Image}}', getImagem(data.image) || '');
+            template = template.replace('{{Link}}', link);
+            template = template.replace('{{Content}}', data.prevDescription || '');
+            $('#blog-item-container').html(template);
+            $('#blog-item-modal').modal('show');
+        }
     }
 
     return {
