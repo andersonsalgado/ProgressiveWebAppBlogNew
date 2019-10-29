@@ -25,7 +25,7 @@
     function getPosts() {
         return new Promise(function (resolve, reject) {
             blogInstance.keys().then(function (_keys) {
-                debugger;
+                
                 _keys = _keys.filter(function (a) {
                     return a && !a.toString().includes('#')
                 });
@@ -52,7 +52,7 @@
     }
 
     function addPostText(link, json) {
-        debugger;
+        
         return new Promise(function (resolve, reject) {
             blogInstance.setItem('#' + link,json).then(function () {
                 resolve();

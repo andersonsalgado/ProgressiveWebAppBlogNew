@@ -49,6 +49,15 @@
     </header>
     <div class="container">
         @*<partial name="_CookieConsentPartial" />*@
+
+        <div style="display:none; padding: 5px; text-align:center;" id="install-container">
+            <button onclick="pageEvents.tryAddHomeScreen();"
+                    class="btn-link no-style">
+                Clique aqui
+            </button>
+            e adicione ProgressiveWebAppBlog na sua home!
+        </div>
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

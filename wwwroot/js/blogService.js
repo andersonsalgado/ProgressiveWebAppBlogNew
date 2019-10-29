@@ -6,18 +6,14 @@
 
 
     function loadLatestBlogPosts() {
+        
         loadData(blogPostUrl);
     }
 
     var blogPostUrlId = '/Home/Post/?postId=';
 
-
-
-
-
-
     function loadBlogPost(link) {
-        debugger;
+        
         var urlEnviar = blogPostUrl;
 
         if (link !== '') {
@@ -30,13 +26,7 @@
 
                 clientStorage.getPostText(link)
                     .then(function (data) {
-                        if (!data) {
-                            debugger;
-                            //template.showBlogItem(data, link);
-                            var contentNotFound = $('#blog-content-not-found')
-                                .html().replace(/{{Link}}/g, link);
-                            template.showBlogItem(contentNotFound, link);
-                        } else {
+                        if (data !== null) {
                             template.showBlogItem(data, link);
                         }
                         window.location = '#' + link;
@@ -45,25 +35,7 @@
     };
 
 
-    //function loadBlogPost(link) {
-    //    debugger;
-
-    //    var urlEnviar = blogPostUrl;
-
-    //    if (link !== '') {
-    //        urlEnviar = blogPostUrlId;
-    //    }
-
-    //    fetchPromise(urlEnviar, link, true)
-    //        .then(function (status) {
-    //            $('#connection-status').html(status);
-    //            clientStorage.getPostText(link)
-    //                .then(function (data) {
-    //                    template.showBlogItem(html, link);
-    //                });
-    //        });
-    //}
-
+    
 
     var blogMorePostsUrl = '/Home/MoreBlogPosts/?oldestBlogPostId=';
 
@@ -75,7 +47,7 @@
 
     function fetchPromise(url, link, json) {
         //link = id do post.
-        debugger;
+        
 
         link = link || '';
 
@@ -89,7 +61,7 @@
             montaLink = url;
         }
 
-           debugger;
+           
         return new Promise(function (resolve, reject) {
             
             fetch(montaLink)
@@ -129,38 +101,9 @@
         });
     }
 
-    function loadBlogPost(link) {
-
-        fetchPromise(blogPostUrl, link, true)
-            .then(function (status) {
-                $('#connection-status').html(status);
-
-                clientStorage.getPostText(link)
-                    .then(function (data) {
-                        if (!data) {
-
-                            var contentNotFound = $('#blog-content-not-found')
-                                .html().replace(/{{Link}}/g, link)
-                                ;
-
-                            template.showBlogItem(contentNotFound, link);
-                        } else {
-                            var converter = new showdown.Converter();
-                            html = converter.makeHtml(data);
-                            template.showBlogItem(html, link);
-                        }
-                        window.location = '#' + link;
-                    })
-            });
-    }
-
-    function loadMoreBlogPosts() {
-        loadData(blogMorePostsUrl + clientStorage.getOldestBlogPostId());
-    }
-
     return {
         loadLatestBlogPosts: loadLatestBlogPosts,
         loadBlogPost: loadBlogPost,
         loadMoreBlogPosts: loadMoreBlogPosts
-    }
+    };
 });
