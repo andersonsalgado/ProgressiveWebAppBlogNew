@@ -47,6 +47,21 @@
             </div>
         </nav>
     </header>
+    <div id="notification-subscribe-section" style="display:none;
+padding: 5px; text-align:center;">
+        <button class="btn-link no-style"
+                onclick="pageEvents.requestPushPermission();">
+            Clique aqui
+        </button>
+        para receber notificações quando novos artigos forem publicados
+    </div>
+    <div style="display:none; padding: 5px; text-align: center;" id="install-container">
+        <button onclick="pageEvents.tryAddHomeScreen();"
+                class="btn-link no-style">
+            Clique aqui
+        </button>
+        e adicione nosso blog na sua home!
+    </div>
     <div class="container">
         @*<partial name="_CookieConsentPartial" />*@
         <main role="main" class="pb-3">

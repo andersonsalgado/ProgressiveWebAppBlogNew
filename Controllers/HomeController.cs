@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Lib.Net.Http.WebPush;
 using Microsoft.AspNetCore.Mvc;
+using ProgressiveWebAppBlog.Context;
 using ProgressiveWebAppBlog.Models;
 using ProgressiveWebAppBlog.Services;
 
@@ -12,12 +14,14 @@ namespace ProgressiveWebAppBlog.Controllers
     public class HomeController : Controller
     {
         private readonly IBlogService _blogService;
+        private readonly PushSubscriptionContext _context;
+        private readonly PushServiceClient _pushClient;
 
-        public HomeController(IBlogService blogService)
+        public HomeController(PushSubscriptionContext context, IBlogService blogService)
         {
             _blogService = blogService;
+            _context = context;
         }
-
         public IActionResult Index()
         {
             return View();
@@ -28,22 +32,38 @@ namespace ProgressiveWebAppBlog.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public async Task<JsonResult> LatestBlogPosts()
+        [HttpGet("publickey")]
+        public ContentResult GetPublicKey()
         {
-            var posts = await _blogService.GetLatestPosts();
-            return Json(posts);
+            return Content(_pushClient.DefaultAuthentication.PublicKey, "text/plain");
         }
-        public async Task<JsonResult> Post(long postId)
+        //armazena subscricoes
+        [HttpPost("subscriptions")]
+        public async Task<IActionResult>
+        StoreSubscription([FromBody]PushSubscription subscription)
         {
-            return  Json(await _blogService.GetPost(postId));
+            var _subscriptionStore = new SqlitePushSubscriptionStore(_context);
+            int res = await _subscriptionStore.StoreSubscriptionAsync(subscription);
+            if (res > 0)
+                return CreatedAtAction(nameof(StoreSubscription),
+               subscription);
+            return NoContent();
         }
-
-        public async Task<JsonResult> MoreBlogPosts(int oldestBlogPostId)
+        [HttpPost("notifications")]
+        public async Task<IActionResult> SendNotification([FromBody]PushMessageViewModel messageVM)
         {
-            var posts = await _blogService.GetOlderPosts(oldestBlogPostId);
-            return Json(posts);
+            var _subscriptionStore = new SqlitePushSubscriptionStore(_context);
+            var message = new PushMessage(messageVM.Notification)
+            {
+                Topic = messageVM.Topic,
+                Urgency = messageVM.Urgency
+            };
+            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription
+           subscription) =>
+           {
+               _pushClient.RequestPushMessageDeliveryAsync(subscription, message);
+           });
+            return NoContent();
         }
-
     }
 }

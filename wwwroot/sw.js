@@ -1,15 +1,20 @@
-﻿"use strict";
-//Installing
-//Pre-cache App Shell
+"use strict";
+importScripts('lib/localforage/localforage.min.js');
 
 var cacheName = 'v4Cache';
 var blogCacheFiles = [
     '/',
+    //arquivos basicos da pwa
+    '/sw.js',
     '/lib/bootstrap/dist/css/bootstrap.css',
     '/css/site.css',
     '/css/Blog/blog.min.css',
     '/lib/jquery/dist/jquery.js',
     '/lib/bootstrap/dist/js/bootstrap.bundle.js',
+    '/lib/bootstrap/dist/js/bootstrap.min.js',
+    '/lib/es6-promise/es6-promise.js',
+    '/lib/fetch/fetch.js',
+    '/lib/systemjs/system.js',
     '/lib/localforage/localforage.min.js',
     '/lib/localforage/localforage-getitems.js',
     '/lib/localforage/localforage-setitems.js',
@@ -27,6 +32,14 @@ var blogCacheFiles = [
     '/js/clientStorage.js',
     '/img/Blog/no-image.jpg',
     '/img/Blog/umPost.jpg'
+    '/images/icons/icon-72x72.png',
+    '/images/icons/icon-96x96.png',
+    '/images/icons/icon-128x128.png',
+    '/images/icons/icon-144x144.png',
+    '/images/icons/icon-152x152.png',
+    '/images/icons/icon-192x192.png',
+    '/images/icons/icon-384x384.png',
+    '/images/icons/icon-512x512.png'
 ];
 
 function timeout(ms, promise) {
@@ -91,3 +104,34 @@ self.addEventListener('fetch', function (event) {
 
 
 
+self.addEventListener('backgroundfetchsuccess', (event) => {
+    const bgFetch = event.registration;
+
+    event.waitUntil(async function () {
+
+        var blogInstance = localforage.createInstance({
+            name: 'blog'
+        });
+
+        const records = await bgFetch.matchAll();
+
+        const promises = records.map(async (record) => {
+            const response = await record.responseReady;
+
+            response.text().then(function (text) {
+                console.log("text retrieved - storing in indexedDB");
+                blogInstance.setItem('#' + bgFetch.id, text);
+            });
+        });
+
+        await Promise.all(promises);
+        event.updateUI({ title: 'Done!' });
+    }());
+});
+
+self.addEventListener('push', function (event) {
+    event.waitUntil(self.registration.showNotification('Maki Blog!', {
+        body: event.data.text(),
+        icon: '/images/notification.png'
+    }));
+});

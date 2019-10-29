@@ -11,6 +11,7 @@
         return new Promise(function (resolve, reject) {
 
             var keyValuePair = [];
+
             posts.map(function (item) {
                 keyValuePair.push({ key: item.postId, value: item });
             });

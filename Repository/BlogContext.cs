@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ProgressiveWebAppBlog.Repository
 {
-    public class Context : DbContext
+    public class BlogContext : DbContext
     {
-        public Context( DbContextOptions options) : base(options)
+        public BlogContext( DbContextOptions options) : base(options)
         {
 
         }
 
-        protected Context()
+        protected BlogContext()
         {
         }
 
