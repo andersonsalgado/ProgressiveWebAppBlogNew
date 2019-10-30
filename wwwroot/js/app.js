@@ -23,7 +23,41 @@ window.pageEvents = {
             }
             defferedPrompt = null;
         });
-    }
+    },
+
+    setBackgroundFetch: function (link) {
+        debugger;
+        navigator.serviceWorker.ready.then(async (swReg) => {
+            const bgFetch = await swReg.backgroundFetch.fetch(link,
+                ['/Home/Post/?postId=' + link], {
+                title: link,
+                icons: [{
+                    sizes: '192x192',
+                    src: 'images/icons/icon-192x192.png',
+                    type: 'image/png',
+                }],
+                downloadTotal: 150000
+            });
+
+            bgFetch.addEventListener('progress', () => {
+                if (!bgFetch.downloadTotal) return;
+
+                const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
+                console.log('Download progress: ' + percent + '%');
+                console.log('Download status: ' + bgFetch.result);
+
+                $('.download-start').hide();
+                $('#status-download').show();
+                $('#status-download > .progress > .progress-bar').css('width', percent + '%');
+
+                if (bgFetch.result === 'success') {
+
+                    $('#status-download > .text-success').show();
+                }
+            });
+        });
+    },
+
 };
 
 //window events

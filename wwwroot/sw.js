@@ -1,8 +1,9 @@
 ﻿"use strict";
 //Installing
 //Pre-cache App Shell
+importScripts('lib/localforage/localforage.min.js');
 
-var cacheName = 'v4Cache';
+var cacheName = 'v6Cache';
 var blogCacheFiles = [
     '/',
     '/lib/bootstrap/dist/css/bootstrap.css',
@@ -86,6 +87,37 @@ self.addEventListener('fetch', function (event) {
 
 });
 
+
+self.addEventListener('backgroundfetchsuccess', (event) => {
+    
+    const bgFetch = event.registration;
+
+    event.waitUntil(async function () {
+
+        var blogInstance = localforage.createInstance({
+            name: 'blog'
+        });
+
+        const records = await bgFetch.matchAll();
+
+        const promises = records.map(async (record) => {
+
+            const response = await record.responseReady;
+
+            console.log(response);
+            console.log(response.text());
+
+            response.text().then(function (text) {
+
+                console.log("text retrieved - storing in indexedDB");
+                blogInstance.setItem('#' + bgFetch.id, text);
+            });
+        });
+
+        await Promise.all(promises);
+        event.updateUI({ title: 'Done!' });
+    }());
+});
 
     
 
