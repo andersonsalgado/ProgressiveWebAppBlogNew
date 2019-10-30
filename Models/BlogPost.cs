@@ -9,13 +9,12 @@ public class BlogPost
     public int PostId { get; set; }
     
     [DisplayName("Título")]
-    [MaxLength(50,ErrorMessage = "Informe até 50 caracteres.")]
     public string Title { get; set; }
 
-    [DisplayName("Post")]
+    [DisplayName("Mensagem do Post")]
     public string PrevDescription { get; set; }
     
-    [DisplayName("Abreviação")]
+    [DisplayName("Abreviação do Post")]
     public string ShortDescription { get; set; }
     
     [DisplayName("Imagem")]

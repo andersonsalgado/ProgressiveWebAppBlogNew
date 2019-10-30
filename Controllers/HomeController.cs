@@ -54,7 +54,16 @@ namespace ProgressiveWebAppBlog.Controllers
         [HttpGet("publickey")]
         public ContentResult GetPublicKey()
         {
-            return Content(_pushClient.DefaultAuthentication.PublicKey, "text/plain");
+            try
+            {
+                return Content(_pushClient.DefaultAuthentication.PublicKey, "text/plain");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ocorreu um erro. Descrição:{ex.Message}");
+            }
+
+            return null;
         }
 
         //armazena subscricoes
