@@ -25,6 +25,9 @@
 </head>
 <body>
     <header>
+
+        
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProgressiveWebAppBlog</a>
@@ -56,6 +59,10 @@
                 Clique aqui
             </button>
             e adicione ProgressiveWebAppBlog na sua home!
+        </div>
+
+        <div id="notification-subscribe-section" style="display:none; padding: 5px; text-align:center;">
+            <button class="btn-link no-style" onclick="pageEvents.requestPushPermission();">Clique aqui</button> para receber notificações quando novos artigos forem publicados
         </div>
 
         <main role="main" class="pb-3">

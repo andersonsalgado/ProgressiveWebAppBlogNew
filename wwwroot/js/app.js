@@ -58,6 +58,10 @@ window.pageEvents = {
         });
     },
 
+    requestPushPermission: function () {
+        serviceWorker.requestPushPermission();
+    }
+
 };
 
 //window events

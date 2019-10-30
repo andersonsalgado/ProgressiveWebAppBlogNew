@@ -3,7 +3,7 @@
 //Pre-cache App Shell
 importScripts('lib/localforage/localforage.min.js');
 
-var cacheName = 'v6Cache';
+var cacheName = 'v8Cache';
 var blogCacheFiles = [
     '/',
     '/lib/bootstrap/dist/css/bootstrap.css',
